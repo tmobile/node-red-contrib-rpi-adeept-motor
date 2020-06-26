@@ -15,14 +15,14 @@ its contributors may be used to endorse or promote products derived from this so
   RED.nodes.registerType("rpi-adeept-motor", {
     category: "function",
     color: "#3FADB5",
-    icon: "font-awesome/fa-question-circle-o",
+    icon: "font-awesome/bolt",
     inputs: 1,
     outputs: 3,
-    paletteLabel: "rpiAdeeptMotor",
+    paletteLabel: "rpi adeept motor",
     defaults: {
-      name: { value: "" },
-      power: {
-        value: "0",
+      name: { value: "rpi adeept motor" },
+      input: {
+        value: "payload",
         validate: RED.validators.typedInput("powerInputType"),
       },
       powerInputType: { value: "msg" },
@@ -31,8 +31,7 @@ its contributors may be used to endorse or promote products derived from this so
     },
     label: function () {
       return (
-        this.name ||
-        `${this.powerInputType}.${this.power}`
+        this.name
       );
     },
     oneditprepare: function () {
@@ -59,41 +58,42 @@ its contributors may be used to endorse or promote products derived from this so
 
     oneditsave: function () {
       this.powerInputType = $("#node-input-powerInput").typedInput("type");
-      this.motorInputType = $("#node-input-motorInput").typedInput("type");
       this.outputType = $("#node-input-output").typedInput("type");
     },
   });
 </script>
 
-<script type="text/html" data-template-name="rpi Adeept motor">
+<script type="text/html" data-template-name="rpi-adeept-motor">
   <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i>Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
-
   <div class="form-row">
-    <label for="node-input-powerInput"><i class="fa fa-align-left"></i> Left Input <span data-i18n="common.label.input"></span></label>
-    <input type="text" id="node-input-powerInput" style="width:70%">
-    <input type="hidden" id="node-input-powerInputType">
-  </div>
-
-  <div class="form-row">
-    <label>&nbsp;</label>
-    <label style="width:70%">
-    <ul>
+    <p>Given a power level, 3 signal will be created to control a motors direction.</p>
+    <p>
+      <ul>
         <li>Power greater than 0 will move the motor forward</li>
         <li>Power less than 0 will move the motor backwards</li>
-    </ul>
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label for="node-input-output">Output <i class="fa fa-envelope"></i></label>
-    <input type="text" id="node-input-output" style="width:70%">
-    <input type="hidden" id="node-input-outputType">
+      </ul>    
+    </p>
+    <p>
+      The Adeept Motor hat is mapped to the below pins.  Use the
+      Motor A: PIN-12 INPUT1, PIN-13 INPUT 2, PIN-11 PWM<br/>
+      Motor B: PIN-8, INPUT1, PIN-10 INPUT 2, PIN-7 PWM 
+    </p>
   </div>
 </script>
 
-<script type="text/html" data-help-name="differences">
+<script type="text/html" data-help-name="rpi-adeept-motor">
   <p>Given a power level, 3 signal will be created to control a motors direction.</p>
+  <p>
+    <ul>
+      <li>Power greater than 0 will move the motor forward</li>
+      <li>Power less than 0 will move the motor backwards</li>
+    </ul>    
+  </p>
+  <p>
+    MotorA: PIN-11 PWM, PIN-12 INPUT1, PIN-13 INPUT 2<br/>
+    MotorB: PIN-7 PWM, PIN-8, INPUT1, PIN-10 INPUT 2 
+  </p>
 </script>

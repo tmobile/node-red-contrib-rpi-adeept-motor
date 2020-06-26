@@ -48,7 +48,7 @@ describe("The Differences Node", function () {
     helper.load(rpiAdeeptMotorNode, flow, function () {
       try {
         const n1 = helper.getNode("n1");
-        expect(n1.type).to.equal("differences");
+        expect(n1.type).to.equal("rpi-adeept-motor");
         done();
       } catch (err) {
         done(err);
@@ -56,82 +56,4 @@ describe("The Differences Node", function () {
     });
   });
 
-  it("should output complement", function (done) {
-    flow[0].func = "-";
-    helper.load(rpiAdeeptMotorNode, flow, function () {
-      try {
-        const n1 = helper.getNode("n1");
-        const n2 = helper.getNode("n2");
-
-        n2.on("input", function (msg: any) {
-          try {
-            console.log("GETTING INPUT");
-            expect(msg.payload).to.deep.equal(["left"]);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        });
-
-        n1.receive({ payload: "whatever", left: ["left"], right: ["right"] });
-      } catch (err) {
-        done(err);
-      }
-    });
-  });
-
-  it("should output intersection", function (done) {
-    flow[0].func = "⋂";
-    helper.load(rpiAdeeptMotorNode, flow, function () {
-      try {
-        const n1 = helper.getNode("n1");
-        const n2 = helper.getNode("n2");
-
-        n2.on("input", function (msg: any) {
-          try {
-            console.log("GETTING INPUT");
-            expect(msg.payload).to.deep.equal(["left"]);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        });
-
-        n1.receive({
-          payload: "whatever",
-          left: ["left"],
-          right: ["right", "left"],
-        });
-      } catch (err) {
-        done(err);
-      }
-    });
-  });
-
-  it("should output union", function (done) {
-    flow[0].func = "⋃";
-    helper.load(rpiAdeeptMotorNode, flow, function () {
-      try {
-        const n1 = helper.getNode("n1");
-        const n2 = helper.getNode("n2");
-
-        n2.on("input", function (msg: any) {
-          try {
-            expect(msg.payload).to.deep.equal(["left", "right"]);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        });
-
-        n1.receive({
-          payload: "whatever",
-          left: ["left"],
-          right: ["right", "left"],
-        });
-      } catch (err) {
-        done(err);
-      }
-    });
-  });
 });

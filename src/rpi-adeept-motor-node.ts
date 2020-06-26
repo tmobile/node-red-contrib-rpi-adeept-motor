@@ -19,22 +19,29 @@ export default function rpiAdeeptMotorNode(RED: Red) {
 
     const node = this as Node;
 
-    this.input = config.input || "payload";
-    this.inputType = config.inputType || "msg";
+    this.input = config.input || 0;
+    this.inputType = config.inputType || "number";
 
     // Output
     this.output = config.output || "payload";
 
     node.on("input", function (msg: any, send: { (msg: any): void }) {
-      const powerInputValue = RED.util.evaluateNodeProperty(
-        this.input, // "payload", "widgets", "gadgets", etc.
-        this.inputType, // "msg", "flow", "global"
-        node,
-        msg
-      );
+      let wire1 = 0;
+      let wire2 = 0;
+      let pwm = 0;
 
-      if (powerInputValue > 0) send([1, 0, powerInputValue]);
-      else send([0, 1, powerInputValue]);
+      if (Number.isInteger(msg.payload)) {
+        let powerInputValue = Math.abs(msg.payload);
+        pwm = powerInputValue > 100 ? 100 : powerInputValue;
+        if (msg.payload > 0)
+          wire1 = 1;
+        else
+          wire2 = 1;
+      } else {
+        console.log(`Value must be a number. Value send is ${msg.payload}.`)
+      }
+
+      send([{ "payload": wire1 }, { "payload": wire2 }, { "payload": pwm }]);
     });
   }
 
