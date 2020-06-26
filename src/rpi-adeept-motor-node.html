@@ -1,0 +1,99 @@
+<!-- 
+========================================================================= 
+Copyright 2020 T-Mobile USA, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+See the LICENSE file for additional language around the disclaimer of warranties. Trademark Disclaimer: Neither the name of "T-Mobile, USA" nor the names of
+its contributors may be used to endorse or promote products derived from this software without specific prior written permission. 
+================================ 
+-->
+
+<script type="text/javascript">
+  RED.nodes.registerType("rpi-adeept-motor", {
+    category: "function",
+    color: "#3FADB5",
+    icon: "font-awesome/fa-question-circle-o",
+    inputs: 1,
+    outputs: 3,
+    paletteLabel: "rpiAdeeptMotor",
+    defaults: {
+      name: { value: "" },
+      power: {
+        value: "0",
+        validate: RED.validators.typedInput("powerInputType"),
+      },
+      powerInputType: { value: "msg" },
+      outputType: { value: "msg" },
+      output: { value: "payload" },
+    },
+    label: function () {
+      return (
+        this.name ||
+        `${this.powerInputType}.${this.power}`
+      );
+    },
+    oneditprepare: function () {
+      // For examples, see https://github.com/node-red/node-red/blob/master/packages/node_modules/%40node-red/nodes/core/common/20-inject.html
+
+      // Power Level Input
+      $("#node-input-powerInputType").val(this.inputType);
+      $("#node-input-powerInput").typedInput({
+        default: this.powerInputType || "msg",
+        typeField: $("#node-input-powerInputType"),
+        types: ["msg"],
+      });
+      $("#node-input-powerInput").typedInput("type", this.powerInputType);;
+
+      // Output
+      $("#node-input-outputType").val(this.outputType);
+      $("#node-input-output").typedInput({
+        default: "msg",
+        typeField: $("#node-input-outputType"),
+        types: ["msg"],
+      });
+      $("#node-input-output").typedInput("type", this.outputType);
+    },
+
+    oneditsave: function () {
+      this.powerInputType = $("#node-input-powerInput").typedInput("type");
+      this.motorInputType = $("#node-input-motorInput").typedInput("type");
+      this.outputType = $("#node-input-output").typedInput("type");
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="rpi Adeept motor">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-powerInput"><i class="fa fa-align-left"></i> Left Input <span data-i18n="common.label.input"></span></label>
+    <input type="text" id="node-input-powerInput" style="width:70%">
+    <input type="hidden" id="node-input-powerInputType">
+  </div>
+
+  <div class="form-row">
+    <label>&nbsp;</label>
+    <label style="width:70%">
+    <ul>
+        <li>Power greater than 0 will move the motor forward</li>
+        <li>Power less than 0 will move the motor backwards</li>
+    </ul>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-output">Output <i class="fa fa-envelope"></i></label>
+    <input type="text" id="node-input-output" style="width:70%">
+    <input type="hidden" id="node-input-outputType">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="differences">
+  <p>Given a power level, 3 signal will be created to control a motors direction.</p>
+</script>

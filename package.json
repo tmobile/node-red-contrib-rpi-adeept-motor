@@ -1,0 +1,52 @@
+{
+  "name": "@tmus/node-red-contrib-rpi-adeept-motor",
+  "version": "1.0.0",
+  "description": "Given a power level, this node will provide the correct signals to the node-red-node-pi-gpio to control the direction of a motor",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "prepack": "tsc && copyfiles ./src/**/*.html dist/ --up=1",
+    "build": "npm run prepack",
+    "build:ci": "npm pack --unsafe-perm",
+    "test": "mocha -r ts-node/register \"**/*.spec.ts\"",
+    "start": "npm run build && node-red"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmobile/node-red-contrib-rpi-adeept-motor"
+  },
+  "keywords": [
+    "node-red",
+    "Adeept Motor Hat",
+    "Adeept",
+    "Motor",
+    "IoT",
+    "Internet of Things"
+  ],
+  "author": "T-Mobile",
+  "license": "Apache-2.0",
+  "node-red": {
+    "nodes": {
+      "rpi-adeept-motor": "dist/rpi-adeept-motor-node.js"
+    }
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.13.0",
+    "@types/node-red": "^0.20.1",
+    "chai": "^4.2.0",
+    "copyfiles": "^2.2.0",
+    "mocha": "^7.1.1",
+    "node-red": "^1.0.5",
+    "node-red-node-test-helper": "^0.2.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  },
+  "bugs": {
+    "url": "https://github.com/tmobile/node-red-contrib-rpi-adeept-motor/issues"
+  },
+  "homepage": "https://github.com/tmobile/node-red-contrib-rpi-adeept-motor"
+}
