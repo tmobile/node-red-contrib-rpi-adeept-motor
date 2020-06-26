@@ -31,7 +31,7 @@ describe("The Differences Node", function () {
   const flow = [
     {
       id: "n1",
-      type: "differences",
+      type: "rpi-adeept-motor",
       leftInput: "left",
       leftInputType: "msg",
       rightInput: "right",

@@ -33,14 +33,12 @@ export default function rpiAdeeptMotorNode(RED: Red) {
         msg
       );
 
-      if (powerInputValue > 0)
-        send([1, 0, powerInputValue])
-      else
-        send([0, 1, powerInputValue])
+      if (powerInputValue > 0) send([1, 0, powerInputValue]);
+      else send([0, 1, powerInputValue]);
     });
   }
 
-  RED.nodes.registerType("rpiAdeeptMotor", RpiAdeeptMotorNode);
+  RED.nodes.registerType("rpi-adeept-motor", RpiAdeeptMotorNode);
 }
 
 module.exports = rpiAdeeptMotorNode;
