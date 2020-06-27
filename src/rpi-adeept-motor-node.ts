@@ -13,6 +13,34 @@ its contributors may be used to endorse or promote products derived from this so
 
 import { Red, Node, NodeProperties } from "node-red";
 
+function getValue(payload: any, motorSelect: string) {
+  let value = payload[motorSelect];  //Assume it's a json
+
+  if (!value) value = payload; //if null then it's not a json, Assume it's a number
+
+  if (Number.isInteger(value)) return value;
+
+  console.log(`Value must be a number. Value send is ${value}.`)
+
+  return 0; //0 - does nothing
+}
+
+function getJsonArray(value: number) {
+  let wire1 = 0;
+  let wire2 = 0;
+  let pwm = 0;
+
+  if (value != 0) {
+    let powerInputValue = Math.abs(value);
+    pwm = powerInputValue > 100 ? 100 : powerInputValue;
+    if (value > 0)
+      wire1 = 1;
+    else
+      wire2 = 1;
+  }
+
+  return [{ "payload": wire1 }, { "payload": wire2 }, { "payload": pwm }];
+}
 export default function rpiAdeeptMotorNode(RED: Red) {
   function RpiAdeeptMotorNode(config: NodeProperties & { [key: string]: any }) {
     RED.nodes.createNode(this, config);
@@ -21,27 +49,15 @@ export default function rpiAdeeptMotorNode(RED: Red) {
 
     this.input = config.input || 0;
     this.inputType = config.inputType || "number";
+    this.motorSelect = config.motorSelect
 
     // Output
     this.output = config.output || "payload";
 
     node.on("input", function (msg: any, send: { (msg: any): void }) {
-      let wire1 = 0;
-      let wire2 = 0;
-      let pwm = 0;
-
-      if (Number.isInteger(msg.payload)) {
-        let powerInputValue = Math.abs(msg.payload);
-        pwm = powerInputValue > 100 ? 100 : powerInputValue;
-        if (msg.payload > 0)
-          wire1 = 1;
-        else
-          wire2 = 1;
-      } else {
-        console.log(`Value must be a number. Value send is ${msg.payload}.`)
-      }
-
-      send([{ "payload": wire1 }, { "payload": wire2 }, { "payload": pwm }]);
+      let value = getValue(msg.payload, this.motorSelect);
+      let jsonArray = getJsonArray(value)
+      send(jsonArray);
     });
   }
 

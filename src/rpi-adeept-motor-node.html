@@ -80,6 +80,12 @@ its contributors may be used to endorse or promote products derived from this so
   </div>
   <div class="form-row">
     <p>Given a power level, 3 signal will be created to control a motors direction.</p>
+    <p>The motor can be sent a number which will the be translated to the control<br/> 
+      signals (INPUT 1 & 2) and the PWM. </p>
+    <p> A json object can be sent with the format <code>{"MotorA": X, "MotorB": Y}</code> <br/>
+      where X and Y are integer values.  In this case, the motor will filter for <br/>
+      the specific motor select in the configuration.  If MotorA is select in the <br/>
+      configuration, then X will be used to construct the INPUT and PWM values. </p>
     <p>
       <ul>
         <li>Power greater than 0 will move the motor forward</li>
@@ -87,9 +93,9 @@ its contributors may be used to endorse or promote products derived from this so
       </ul>    
     </p>
     <p>
-      The Adeept Motor hat is mapped to the below pins.  Use the
-      Motor A: PIN-12 INPUT1, PIN-13 INPUT 2, PIN-11 PWM<br/>
-      Motor B: PIN-8, INPUT1, PIN-10 INPUT 2, PIN-7 PWM 
+      The Adeept Motor hat is mapped to the below pins. <br/>
+      Motor A: PIN-12 INPUT 1, PIN-13 INPUT 2, PIN-11 PWM<br/>
+      Motor B: PIN-8 INPUT 1, PIN-10 INPUT 2, PIN-7 PWM 
     </p>
   </div>
 </script>
