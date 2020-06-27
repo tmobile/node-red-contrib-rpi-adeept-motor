@@ -23,11 +23,12 @@ its contributors may be used to endorse or promote products derived from this so
       name: { value: "rpi adeept motor" },
       input: {
         value: "payload",
-        validate: RED.validators.typedInput("powerInputType"),
+        validate: RED.validators.typedInput("inputType"),
       },
-      powerInputType: { value: "msg" },
+      inputType: { value: "msg" },
       outputType: { value: "msg" },
       output: { value: "payload" },
+      motorSelect: { value: "motorSelect" }
     },
     label: function () {
       return (
@@ -35,16 +36,15 @@ its contributors may be used to endorse or promote products derived from this so
       );
     },
     oneditprepare: function () {
-      // For examples, see https://github.com/node-red/node-red/blob/master/packages/node_modules/%40node-red/nodes/core/common/20-inject.html
 
-      // Power Level Input
-      $("#node-input-powerInputType").val(this.inputType);
-      $("#node-input-powerInput").typedInput({
-        default: this.powerInputType || "msg",
-        typeField: $("#node-input-powerInputType"),
+      //Input
+      $("#node-input-inputType").val(this.inputType);
+      $("#node-input-input").typedInput({
+        default: this.inputType || "msg",
+        typeField: $("#node-input-inputType"),
         types: ["msg"],
       });
-      $("#node-input-powerInput").typedInput("type", this.powerInputType);;
+      $("#node-input-input").typedInput("type", this.inputType);;
 
       // Output
       $("#node-input-outputType").val(this.outputType);
@@ -54,11 +54,13 @@ its contributors may be used to endorse or promote products derived from this so
         types: ["msg"],
       });
       $("#node-input-output").typedInput("type", this.outputType);
+      $("#node-input-motor-select").val(this.motorSelect);
     },
 
     oneditsave: function () {
-      this.powerInputType = $("#node-input-powerInput").typedInput("type");
+      this.inputType = $("#node-input-input").typedInput("type");
       this.outputType = $("#node-input-output").typedInput("type");
+      this.motorSelect = $("#node-input-motor-select").val()
     },
   });
 </script>
@@ -67,6 +69,14 @@ its contributors may be used to endorse or promote products derived from this so
   <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i>Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-motor-select"><i class="icon-tag"></i>Motor Name</label>
+    <select name="node-input-motor-select" id="node-input-motor-select" placeholder="motorSelect">
+      <option value="MotorA" selected>MotorA</option>
+      <option value="MotorB">MotorB</option>
+    </select>
+
   </div>
   <div class="form-row">
     <p>Given a power level, 3 signal will be created to control a motors direction.</p>
@@ -94,6 +104,6 @@ its contributors may be used to endorse or promote products derived from this so
   </p>
   <p>
     MotorA: PIN-11 PWM, PIN-12 INPUT1, PIN-13 INPUT 2<br/>
-    MotorB: PIN-7 PWM, PIN-8, INPUT1, PIN-10 INPUT 2 
+    MotorB: PIN-7 PWM, PIN-8 INPUT1, PIN-10 INPUT 2 
   </p>
 </script>
