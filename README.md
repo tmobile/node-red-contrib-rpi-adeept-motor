@@ -9,14 +9,15 @@ The second if a JSON object of the format ```{"MotorA": X, "MotorB": Y}```,
 The control signal are mapped to respective GPIO Pins:
 
 
-|   |  GPIO Pin INPUT 1 | GPIO Pin INPUT 2  |  GPIO Pin PWM |   |
-|---|---|---|---|---|
-|  Motor A |  12 |  13 | 11  |   |
-|  Motor B |  8 |  10 | 7   |  |
+|   |  GPIO Pin INPUT 1 | GPIO Pin INPUT 2  |  GPIO Pin PWM |
+|---|---|---|---|
+|  Motor A |  12 |  13 | 11  |
+|  Motor B |  8 |  10 | 7   |
 
 
 <img src='over_view.png' width=400/>
 
+Import iot_rover_flow.json into Node-Red for an example flow.
 
 ## Contribute Quick Start
 
